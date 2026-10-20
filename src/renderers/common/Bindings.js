@@ -168,7 +168,7 @@ class Bindings extends DataMap {
 
 					if ( updatedGroup === false ) continue;
 
-					const updated = binding.update();
+					const updated = binding.updateRanges.length > 0 || binding.update();
 
 					if ( updated ) {
 

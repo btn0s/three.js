@@ -3879,25 +3879,7 @@ class Renderer {
 
 		//
 
-		const refreshType = this._nodes.needsRefresh( renderObject );
-
-		if ( refreshType === RenderObjectRefreshType.FULL ) {
-
-			this._nodes.updateBefore( renderObject );
-
-			this._geometries.updateForRender( renderObject );
-
-			this._nodes.updateForRender( renderObject );
-			this._bindings.updateForRender( renderObject );
-
-		} else if ( refreshType === RenderObjectRefreshType.SHARED ) {
-
-			this._nodes.updateBefore( renderObject );
-
-			this._nodes.updateForRender( renderObject );
-			this._bindings.updateSharedForRender( renderObject );
-
-		}
+		const refreshType = this._updateRenderObject( renderObject );
 
 		this._pipelines.updateForRender( renderObject );
 
@@ -3907,7 +3889,7 @@ class Renderer {
 
 			this.backend.draw( renderObject, this.info );
 
-			if ( refreshType !== RenderObjectRefreshType.NONE ) this._nodes.updateAfter( renderObject );
+			if ( refreshType !== RenderObjectRefreshType.NONE || renderObject.getMonitor().hasNode ) this._nodes.updateAfter( renderObject );
 
 		}
 
@@ -3916,24 +3898,46 @@ class Renderer {
 	_updateBundleObject( object, material, scene, camera, lightsNode, group, clippingContext, passId ) {
 
 		const renderObject = this._objects.get( object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext, passId );
+		const refreshType = this._updateRenderObject( renderObject );
+
+		if ( refreshType !== RenderObjectRefreshType.NONE || renderObject.getMonitor().hasNode ) this._nodes.updateAfter( renderObject );
+
+	}
+
+	_updateRenderObject( renderObject ) {
+
+		const hasNode = renderObject.getMonitor().hasNode;
+
+		if ( hasNode ) {
+
+			this._nodes.updateBefore( renderObject );
+			this._nodes.updateForRender( renderObject );
+
+		}
+
 		const refreshType = this._nodes.needsRefresh( renderObject );
 
 		if ( refreshType === RenderObjectRefreshType.FULL ) {
 
-			this._nodes.updateBefore( renderObject );
+			if ( hasNode === false ) this._nodes.updateBefore( renderObject );
 			this._geometries.updateForRender( renderObject );
-			this._nodes.updateForRender( renderObject );
+			if ( hasNode === false ) this._nodes.updateForRender( renderObject );
 			this._bindings.updateForRender( renderObject );
-			this._nodes.updateAfter( renderObject );
 
 		} else if ( refreshType === RenderObjectRefreshType.SHARED ) {
 
-			this._nodes.updateBefore( renderObject );
-			this._nodes.updateForRender( renderObject );
+			if ( hasNode === false ) {
+
+				this._nodes.updateBefore( renderObject );
+				this._nodes.updateForRender( renderObject );
+
+			}
+
 			this._bindings.updateSharedForRender( renderObject );
-			this._nodes.updateAfter( renderObject );
 
 		}
+
+		return refreshType;
 
 	}
 

@@ -1,4 +1,5 @@
 import { RenderObjectRefreshType, DynamicDrawUsage } from '../../../constants.js';
+import { NodeUpdateType } from '../../../nodes/core/constants.js';
 
 const refreshUniforms = [
 	'alphaMap',
@@ -129,6 +130,8 @@ class NodeMaterialObserver {
 		 * @type {WeakMap<RenderObject,Object>}
 		 */
 		this.renderObjects = new WeakMap();
+
+		this.bindings = new WeakMap();
 
 		/**
 		 * Whether the material uses node objects or not.
@@ -917,6 +920,85 @@ class NodeMaterialObserver {
 
 	}
 
+	getBindingsRefresh( renderObject ) {
+
+		let refreshType = RenderObjectRefreshType.NONE;
+
+		for ( const bindGroup of renderObject.getBindings() ) {
+
+			for ( const binding of bindGroup.bindings ) {
+
+				const groupNode = binding.groupNode;
+
+				if ( ( binding.isNodeUniformsGroup === true || binding.isNodeUniformBuffer === true ) && binding.groupNode.shared === true ) {
+
+					if ( groupNode.updateType === NodeUpdateType.OBJECT || this.bindings.get( binding ) !== groupNode.version ) {
+
+						this.bindings.set( binding, groupNode.version );
+						refreshType = RenderObjectRefreshType.SHARED;
+
+					}
+
+				} else if ( binding.isNodeUniformsGroup === true ) {
+
+					if ( groupNode.updateType !== NodeUpdateType.OBJECT ) {
+
+						if ( this.bindings.get( binding ) === groupNode.version ) continue;
+
+						this.bindings.set( binding, groupNode.version );
+
+					}
+
+					if ( binding.update() || binding.updateRanges.length > 0 ) return RenderObjectRefreshType.FULL;
+
+				} else if ( binding.isSampler === true ) {
+
+					const texture = binding.textureNode ? binding.textureNode.value : binding.texture;
+
+					if ( binding.texture !== texture || binding.version !== texture.version ||
+						texture.isVideoTexture === true || texture.isExternalTexture === true ||
+						( texture.isStorageTexture === true && texture.mipmapsAutoUpdate === true ) ) {
+
+						return RenderObjectRefreshType.FULL;
+
+					}
+
+				} else if ( binding.isStorageBuffer === true ) {
+
+					const attribute = binding.attribute;
+					const bufferAttribute = attribute.isInterleavedBufferAttribute ? attribute.data : attribute;
+					let data = this.bindings.get( binding );
+
+					if ( data === undefined ) {
+
+						data = {};
+						this.bindings.set( binding, data );
+
+					}
+
+					if ( data.attribute !== attribute || data.version !== bufferAttribute.version || bufferAttribute.usage === DynamicDrawUsage ) {
+
+						data.attribute = attribute;
+						data.version = bufferAttribute.version;
+
+						return RenderObjectRefreshType.FULL;
+
+					}
+
+				} else {
+
+					return RenderObjectRefreshType.FULL;
+
+				}
+
+			}
+
+		}
+
+		return refreshType;
+
+	}
+
 	/**
 	 * Checks if the given render object requires a refresh.
 	 *
@@ -926,12 +1008,14 @@ class NodeMaterialObserver {
 	 */
 	needsRefresh( renderObject, nodeFrame ) {
 
-		if ( this.hasNode || this.hasAnimation || this.hasDynamicInstancing( renderObject.object ) || this.firstInitialization( renderObject ) || this.needsVelocity( nodeFrame.renderer ) )
+		if ( this.hasAnimation || this.hasDynamicInstancing( renderObject.object ) || this.firstInitialization( renderObject ) || this.needsVelocity( nodeFrame.renderer ) )
 			return RenderObjectRefreshType.FULL;
 
 		const { renderId } = nodeFrame;
 
-		let refreshType = RenderObjectRefreshType.NONE;
+		let refreshType = this.hasNode ? this.getBindingsRefresh( renderObject ) : RenderObjectRefreshType.NONE;
+
+		if ( refreshType === RenderObjectRefreshType.FULL ) return refreshType;
 
 		// shared UBOs are potentially never updated when objects don't change. Below block
 		// make sure these UBOs are updated at least once.
