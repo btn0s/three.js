@@ -168,7 +168,7 @@ class Bindings extends DataMap {
 
 					if ( updatedGroup === false ) continue;
 
-					const updated = binding.updateRanges.length > 0 || binding.update();
+					const updated = binding.update();
 
 					if ( updated ) {
 
@@ -243,11 +243,20 @@ class Bindings extends DataMap {
 
 					} else if ( binding.isSampledTexture ) {
 
+						binding.update();
+
 						this.textures.updateTexture( binding.texture );
+
+						const textureData = this.textures.get( binding.texture );
+
+						binding.generation = textureData.generation;
+						textureData.bindGroups.add( bindGroup );
 
 					} else if ( binding.isSampler ) {
 
-						this.textures.updateSampler( binding );
+						binding.update();
+
+						binding.samplerKey = this.textures.updateSampler( binding );
 
 					} else if ( binding.isStorageBuffer ) {
 
@@ -398,7 +407,7 @@ class Bindings extends DataMap {
 
 			if ( binding.isUniformBuffer ) {
 
-				const updated = binding.update();
+				const updated = binding.updateRanges.length > 0 || binding.update();
 
 				if ( updated ) {
 
