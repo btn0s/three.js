@@ -6,6 +6,75 @@
 import { DynamicDrawUsage, RenderObjectRefreshType, Color, Vector2, Vector3, Vector4, Matrix2, Matrix3, Matrix4, error, UnsignedIntType, IntType, RedFormat, RedIntegerFormat, DepthFormat, DepthStencilFormat, AlphaFormat, RGFormat, RGIntegerFormat, RGBFormat, RGBIntegerFormat, EventDispatcher, MathUtils, warn, WebGLCoordinateSystem, WebGPUCoordinateSystem, ColorManagement, SRGBTransfer, NoToneMapping, StaticDrawUsage, InterleavedBufferAttribute, InterleavedBuffer, NoColorSpace, log as log$1, warnOnce, Texture, Compatibility, LessCompare, LessEqualCompare, GreaterCompare, GreaterEqualCompare, NearestFilter, Sphere, BackSide, DoubleSide, CubeTexture, CubeReflectionMapping, CubeRefractionMapping, TangentSpaceNormalMap, NoNormalPacking, NormalRGPacking, NormalGAPacking, ObjectSpaceNormalMap, RED_GREEN_RGTC2_Format, RG11_EAC_Format, InstancedBufferAttribute, InstancedInterleavedBuffer, DataTexture, RGBAFormat, FloatType, DataArrayTexture, FramebufferTexture, LinearMipmapLinearFilter, DepthTexture, Material, LineBasicMaterial, LineDashedMaterial, NoBlending, MeshNormalMaterial, SRGBColorSpace, RenderTarget, BoxGeometry, Mesh, Scene, LinearFilter, CubeCamera, EquirectangularReflectionMapping, EquirectangularRefractionMapping, AddOperation, MixOperation, MultiplyOperation, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, HalfFloatType, ClampToEdgeWrapping, BufferGeometry, OrthographicCamera, PerspectiveCamera, LinearSRGBColorSpace, CubeUVReflectionMapping, BufferAttribute, MeshStandardMaterial, MeshPhysicalMaterial, MeshToonMaterial, MeshMatcapMaterial, SpriteMaterial, PointsMaterial, ShadowMaterial, Uint32BufferAttribute, Uint16BufferAttribute, ByteType, UnsignedByteType, ShortType, UnsignedShortType, UnsignedShort4444Type, UnsignedShort5551Type, UnsignedInt248Type, UnsignedInt5999Type, UnsignedInt101111Type, NormalBlending, SrcAlphaFactor, OneMinusSrcAlphaFactor, AddEquation, MaterialBlending, Object3D, LinearMipMapLinearFilter, Plane, Float32BufferAttribute, UVMapping, VSMShadowMap, PCFShadowMap, BasicShadowMap, CubeDepthTexture, SphereGeometry, LinearMipmapNearestFilter, NearestMipmapLinearFilter, Float16BufferAttribute, yieldToMain, REVISION, ArrayCamera, PlaneGeometry, FrontSide, CustomBlending, ZeroFactor, CylinderGeometry, Quaternion, WebXRController, RAD2DEG, PCFSoftShadowMap, FrustumArray, Frustum, RGBAIntegerFormat, TimestampQuery, createCanvasElement, MaxEquation, MinEquation, ReverseSubtractEquation, SubtractEquation, OneMinusConstantAlphaFactor, ConstantAlphaFactor, OneMinusConstantColorFactor, ConstantColorFactor, OneMinusDstAlphaFactor, OneMinusDstColorFactor, OneMinusSrcColorFactor, DstAlphaFactor, DstColorFactor, SrcAlphaSaturateFactor, SrcColorFactor, OneFactor, CullFaceNone, CullFaceBack, CullFaceFront, MultiplyBlending, SubtractiveBlending, AdditiveBlending, NotEqualDepth, GreaterDepth, GreaterEqualDepth, EqualDepth, LessEqualDepth, LessDepth, AlwaysDepth, NeverDepth, ReversedDepthFuncs, RGB_S3TC_DXT1_Format, RGBA_S3TC_DXT1_Format, RGBA_S3TC_DXT3_Format, RGBA_S3TC_DXT5_Format, RGB_PVRTC_4BPPV1_Format, RGB_PVRTC_2BPPV1_Format, RGBA_PVRTC_4BPPV1_Format, RGBA_PVRTC_2BPPV1_Format, RGB_ETC1_Format, RGB_ETC2_Format, RGBA_ETC2_EAC_Format, R11_EAC_Format, SIGNED_R11_EAC_Format, SIGNED_RG11_EAC_Format, RGBA_ASTC_4x4_Format, RGBA_ASTC_5x4_Format, RGBA_ASTC_5x5_Format, RGBA_ASTC_6x5_Format, RGBA_ASTC_6x6_Format, RGBA_ASTC_8x5_Format, RGBA_ASTC_8x6_Format, RGBA_ASTC_8x8_Format, RGBA_ASTC_10x5_Format, RGBA_ASTC_10x6_Format, RGBA_ASTC_10x8_Format, RGBA_ASTC_10x10_Format, RGBA_ASTC_12x10_Format, RGBA_ASTC_12x12_Format, RGBA_BPTC_Format, RGB_BPTC_SIGNED_Format, RGB_BPTC_UNSIGNED_Format, RED_RGTC1_Format, SIGNED_RED_RGTC1_Format, SIGNED_RED_GREEN_RGTC2_Format, MirroredRepeatWrapping, RepeatWrapping, NearestMipmapNearestFilter, NotEqualCompare, EqualCompare, AlwaysCompare, NeverCompare, LinearTransfer, getByteLength, isTypedArray, NotEqualStencilFunc, GreaterStencilFunc, GreaterEqualStencilFunc, EqualStencilFunc, LessEqualStencilFunc, LessStencilFunc, AlwaysStencilFunc, NeverStencilFunc, DecrementWrapStencilOp, IncrementWrapStencilOp, DecrementStencilOp, IncrementStencilOp, InvertStencilOp, ReplaceStencilOp, ZeroStencilOp, KeepStencilOp, SpotLight, PointLight, DirectionalLight, RectAreaLight, AmbientLight, HemisphereLight, LightProbe, LinearToneMapping, ReinhardToneMapping, CineonToneMapping, ACESFilmicToneMapping, AgXToneMapping, NeutralToneMapping, Group, Loader, FileLoader, MaterialLoader, ObjectLoader } from './three.core.js';
 export { AdditiveAnimationBlendMode, AnimationAction, AnimationClip, AnimationLoader, AnimationMixer, AnimationObjectGroup, AnimationUtils, ArcCurve, ArrowHelper, AttachedBindMode, Audio, AudioAnalyser, AudioContext, AudioListener, AudioLoader, AxesHelper, BasicDepthPacking, BatchedMesh, BezierInterpolant, Bone, BooleanKeyframeTrack, Box2, Box3, Box3Helper, BoxHelper, BufferGeometryLoader, Cache, Camera, CameraHelper, CanvasTexture, CapsuleGeometry, CatmullRomCurve3, CircleGeometry, Clock, ColorKeyframeTrack, CompressedArrayTexture, CompressedCubeTexture, CompressedTexture, CompressedTextureLoader, ConeGeometry, Controls, CubeTextureLoader, CubicBezierCurve, CubicBezierCurve3, CubicInterpolant, CullFaceFrontBack, Curve, CurvePath, CustomToneMapping, Cylindrical, Data3DTexture, DataTextureLoader, DataUtils, DefaultLoadingManager, DetachedBindMode, DirectionalLightHelper, DiscreteInterpolant, DodecahedronGeometry, DynamicCopyUsage, DynamicReadUsage, EdgesGeometry, EllipseCurve, Euler, ExternalTexture, ExtrudeGeometry, Fog, FogExp2, GLBufferAttribute, GLSL1, GLSL3, GridHelper, HTMLTexture, HemisphereLightHelper, IcosahedronGeometry, ImageBitmapLoader, ImageLoader, ImageUtils, InstancedBufferGeometry, InstancedMesh, Int16BufferAttribute, Int32BufferAttribute, Int8BufferAttribute, Interpolant, InterpolateBezier, InterpolateDiscrete, InterpolateLinear, InterpolateSmooth, InterpolationSamplingMode, InterpolationSamplingType, KeyframeTrack, LOD, LatheGeometry, Layers, Light, LightShadow, Line, Line3, LineCurve, LineCurve3, LineLoop, LineSegments, LinearInterpolant, LinearMipMapNearestFilter, LoaderUtils, LoadingManager, LoopOnce, LoopPingPong, LoopRepeat, MOUSE, MeshDepthMaterial, MeshDistanceMaterial, NearestMipMapLinearFilter, NearestMipMapNearestFilter, NormalAnimationBlendMode, NumberKeyframeTrack, OctahedronGeometry, Path, PlaneHelper, PointLightHelper, Points, PolarGridHelper, PolyhedronGeometry, PositionalAudio, PropertyBinding, PropertyMixer, QuadraticBezierCurve, QuadraticBezierCurve3, QuaternionKeyframeTrack, QuaternionLinearInterpolant, RGBADepthPacking, RGBDepthPacking, RGDepthPacking, RawShaderMaterial, Ray, Raycaster, RenderTarget3D, RingGeometry, ShaderMaterial, Shape, ShapeGeometry, ShapePath, ShapeUtils, Skeleton, SkeletonHelper, SkinnedMesh, Source, Spherical, SphericalHarmonics3, SplineCurve, SpotLightHelper, Sprite, StaticCopyUsage, StaticReadUsage, StereoCamera, StreamCopyUsage, StreamDrawUsage, StreamReadUsage, StringKeyframeTrack, TOUCH, TetrahedronGeometry, TextureLoader, TextureSource, TextureUtils, Timer, TorusGeometry, TorusKnotGeometry, Triangle, TriangleFanDrawMode, TriangleStripDrawMode, TrianglesDrawMode, TubeGeometry, Uint8BufferAttribute, Uint8ClampedBufferAttribute, Uniform, UniformsGroup, VectorKeyframeTrack, VideoFrameTexture, VideoTexture, WebGL3DRenderTarget, WebGLArrayRenderTarget, WebGLRenderTarget, WireframeGeometry, WrapAroundEnding, ZeroCurvatureEnding, ZeroSlopeEnding, getConsoleFunction, setConsoleFunction } from './three.core.js';
 
+/**
+ * Possible shader stages.
+ *
+ * @property {string} VERTEX The vertex shader stage.
+ * @property {string} FRAGMENT The fragment shader stage.
+ */
+const NodeShaderStage = {
+	VERTEX: 'vertex',
+	FRAGMENT: 'fragment'
+};
+
+/**
+ * Update types of a node.
+ *
+ * @property {string} NONE The update method is not executed.
+ * @property {string} FRAME The update method is executed per frame.
+ * @property {string} RENDER The update method is executed per render. A frame might be produced by multiple render calls so this value allows more detailed updates than FRAME.
+ * @property {string} OBJECT The update method is executed per {@link Object3D} that uses the node for rendering.
+ */
+const NodeUpdateType = {
+	NONE: 'none',
+	FRAME: 'frame',
+	RENDER: 'render',
+	OBJECT: 'object'
+};
+
+/**
+ * Data types of a node.
+ *
+ * @property {string} BOOLEAN Boolean type.
+ * @property {string} INTEGER Integer type.
+ * @property {string} FLOAT Float type.
+ * @property {string} VECTOR2 Two-dimensional vector type.
+ * @property {string} VECTOR3 Three-dimensional vector type.
+ * @property {string} VECTOR4 Four-dimensional vector type.
+ * @property {string} MATRIX2 2x2 matrix type.
+ * @property {string} MATRIX3 3x3 matrix type.
+ * @property {string} MATRIX4 4x4 matrix type.
+ */
+const NodeType = {
+	BOOLEAN: 'bool',
+	INTEGER: 'int',
+	FLOAT: 'float',
+	VECTOR2: 'vec2',
+	VECTOR3: 'vec3',
+	VECTOR4: 'vec4',
+	MATRIX2: 'mat2',
+	MATRIX3: 'mat3',
+	MATRIX4: 'mat4'
+};
+
+/**
+ * Access types of a node. These are relevant for compute and storage usage.
+ *
+ * @property {string} READ_ONLY Read-only access
+ * @property {string} WRITE_ONLY Write-only access.
+ * @property {string} READ_WRITE Read and write access.
+ */
+const NodeAccess = {
+	READ_ONLY: 'readOnly',
+	WRITE_ONLY: 'writeOnly',
+	READ_WRITE: 'readWrite',
+};
+
+const defaultShaderStages = [ 'fragment', 'vertex' ];
+const defaultBuildStages = [ 'setup', 'analyze', 'generate' ];
+const shaderStages = [ ...defaultShaderStages, 'compute' ];
+const vectorComponents = [ 'x', 'y', 'z', 'w' ];
+
 const refreshUniforms = [
 	'alphaMap',
 	'alphaTest',
@@ -135,6 +204,8 @@ class NodeMaterialObserver {
 		 * @type {WeakMap<RenderObject,Object>}
 		 */
 		this.renderObjects = new WeakMap();
+
+		this.bindings = new WeakMap();
 
 		/**
 		 * Whether the material uses node objects or not.
@@ -923,6 +994,85 @@ class NodeMaterialObserver {
 
 	}
 
+	getBindingsRefresh( renderObject ) {
+
+		let refreshType = RenderObjectRefreshType.NONE;
+
+		for ( const bindGroup of renderObject.getBindings() ) {
+
+			for ( const binding of bindGroup.bindings ) {
+
+				const groupNode = binding.groupNode;
+
+				if ( ( binding.isNodeUniformsGroup === true || binding.isNodeUniformBuffer === true ) && binding.groupNode.shared === true ) {
+
+					if ( groupNode.updateType === NodeUpdateType.OBJECT || this.bindings.get( binding ) !== groupNode.version ) {
+
+						this.bindings.set( binding, groupNode.version );
+						refreshType = RenderObjectRefreshType.SHARED;
+
+					}
+
+				} else if ( binding.isNodeUniformsGroup === true ) {
+
+					if ( groupNode.updateType !== NodeUpdateType.OBJECT ) {
+
+						if ( this.bindings.get( binding ) === groupNode.version ) continue;
+
+						this.bindings.set( binding, groupNode.version );
+
+					}
+
+					if ( binding.update() || binding.updateRanges.length > 0 ) return RenderObjectRefreshType.FULL;
+
+				} else if ( binding.isSampler === true ) {
+
+					const texture = binding.textureNode ? binding.textureNode.value : binding.texture;
+
+					if ( binding.texture !== texture || binding.version !== texture.version ||
+						texture.isVideoTexture === true || texture.isExternalTexture === true ||
+						( texture.isStorageTexture === true && texture.mipmapsAutoUpdate === true ) ) {
+
+						return RenderObjectRefreshType.FULL;
+
+					}
+
+				} else if ( binding.isStorageBuffer === true ) {
+
+					const attribute = binding.attribute;
+					const bufferAttribute = attribute.isInterleavedBufferAttribute ? attribute.data : attribute;
+					let data = this.bindings.get( binding );
+
+					if ( data === undefined ) {
+
+						data = {};
+						this.bindings.set( binding, data );
+
+					}
+
+					if ( data.attribute !== attribute || data.version !== bufferAttribute.version || bufferAttribute.usage === DynamicDrawUsage ) {
+
+						data.attribute = attribute;
+						data.version = bufferAttribute.version;
+
+						return RenderObjectRefreshType.FULL;
+
+					}
+
+				} else {
+
+					return RenderObjectRefreshType.FULL;
+
+				}
+
+			}
+
+		}
+
+		return refreshType;
+
+	}
+
 	/**
 	 * Checks if the given render object requires a refresh.
 	 *
@@ -932,12 +1082,14 @@ class NodeMaterialObserver {
 	 */
 	needsRefresh( renderObject, nodeFrame ) {
 
-		if ( this.hasNode || this.hasAnimation || this.hasDynamicInstancing( renderObject.object ) || this.firstInitialization( renderObject ) || this.needsVelocity( nodeFrame.renderer ) )
+		if ( this.hasAnimation || this.hasDynamicInstancing( renderObject.object ) || this.firstInitialization( renderObject ) || this.needsVelocity( nodeFrame.renderer ) )
 			return RenderObjectRefreshType.FULL;
 
 		const { renderId } = nodeFrame;
 
-		let refreshType = RenderObjectRefreshType.NONE;
+		let refreshType = this.hasNode ? this.getBindingsRefresh( renderObject ) : RenderObjectRefreshType.NONE;
+
+		if ( refreshType === RenderObjectRefreshType.FULL ) return refreshType;
 
 		// shared UBOs are potentially never updated when objects don't change. Below block
 		// make sure these UBOs are updated at least once.
@@ -1600,75 +1752,6 @@ var NodeUtils = /*#__PURE__*/Object.freeze({
 	hashString: hashString,
 	isArrayAsParameter: isArrayAsParameter
 });
-
-/**
- * Possible shader stages.
- *
- * @property {string} VERTEX The vertex shader stage.
- * @property {string} FRAGMENT The fragment shader stage.
- */
-const NodeShaderStage = {
-	VERTEX: 'vertex',
-	FRAGMENT: 'fragment'
-};
-
-/**
- * Update types of a node.
- *
- * @property {string} NONE The update method is not executed.
- * @property {string} FRAME The update method is executed per frame.
- * @property {string} RENDER The update method is executed per render. A frame might be produced by multiple render calls so this value allows more detailed updates than FRAME.
- * @property {string} OBJECT The update method is executed per {@link Object3D} that uses the node for rendering.
- */
-const NodeUpdateType = {
-	NONE: 'none',
-	FRAME: 'frame',
-	RENDER: 'render',
-	OBJECT: 'object'
-};
-
-/**
- * Data types of a node.
- *
- * @property {string} BOOLEAN Boolean type.
- * @property {string} INTEGER Integer type.
- * @property {string} FLOAT Float type.
- * @property {string} VECTOR2 Two-dimensional vector type.
- * @property {string} VECTOR3 Three-dimensional vector type.
- * @property {string} VECTOR4 Four-dimensional vector type.
- * @property {string} MATRIX2 2x2 matrix type.
- * @property {string} MATRIX3 3x3 matrix type.
- * @property {string} MATRIX4 4x4 matrix type.
- */
-const NodeType = {
-	BOOLEAN: 'bool',
-	INTEGER: 'int',
-	FLOAT: 'float',
-	VECTOR2: 'vec2',
-	VECTOR3: 'vec3',
-	VECTOR4: 'vec4',
-	MATRIX2: 'mat2',
-	MATRIX3: 'mat3',
-	MATRIX4: 'mat4'
-};
-
-/**
- * Access types of a node. These are relevant for compute and storage usage.
- *
- * @property {string} READ_ONLY Read-only access
- * @property {string} WRITE_ONLY Write-only access.
- * @property {string} READ_WRITE Read and write access.
- */
-const NodeAccess = {
-	READ_ONLY: 'readOnly',
-	WRITE_ONLY: 'writeOnly',
-	READ_WRITE: 'readWrite',
-};
-
-const defaultShaderStages = [ 'fragment', 'vertex' ];
-const defaultBuildStages = [ 'setup', 'analyze', 'generate' ];
-const shaderStages = [ ...defaultShaderStages, 'compute' ];
-const vectorComponents = [ 'x', 'y', 'z', 'w' ];
 
 const _parentBuildStage = {
 	analyze: 'setup',
@@ -33272,6 +33355,14 @@ class Pipelines extends DataMap {
 
 		}
 
+		if ( promises !== null ) {
+
+			const promise = this.get( data.pipeline ).promise;
+
+			if ( promise !== undefined ) promises.push( promise );
+
+		}
+
 		return data.pipeline;
 
 	}
@@ -33425,11 +33516,21 @@ class Pipelines extends DataMap {
 
 			renderObject.pipeline = pipeline;
 
-			// The `promises` array is `null` by default and only set to an empty array when
-			// `Renderer.compileAsync()` is used. The next call actually fills the array with
-			// pending promises that resolve when the render pipelines are ready for rendering.
+			const pipelinePromises = promises === null ? null : [];
 
-			this.backend.createRenderPipeline( renderObject, promises );
+			this.backend.createRenderPipeline( renderObject, pipelinePromises );
+
+			if ( pipelinePromises !== null && pipelinePromises.length > 0 ) {
+
+				const pipelineData = this.get( pipeline );
+
+				pipelineData.promise = Promise.all( pipelinePromises ).finally( () => {
+
+					delete pipelineData.promise;
+
+				} );
+
+			}
 
 		}
 
@@ -33769,11 +33870,20 @@ class Bindings extends DataMap {
 
 					} else if ( binding.isSampledTexture ) {
 
+						binding.update();
+
 						this.textures.updateTexture( binding.texture );
+
+						const textureData = this.textures.get( binding.texture );
+
+						binding.generation = textureData.generation;
+						textureData.bindGroups.add( bindGroup );
 
 					} else if ( binding.isSampler ) {
 
-						this.textures.updateSampler( binding );
+						binding.update();
+
+						binding.samplerKey = this.textures.updateSampler( binding );
 
 					} else if ( binding.isStorageBuffer ) {
 
@@ -33924,7 +34034,7 @@ class Bindings extends DataMap {
 
 			if ( binding.isUniformBuffer ) {
 
-				const updated = binding.update();
+				const updated = binding.updateRanges.length > 0 || binding.update();
 
 				if ( updated ) {
 
@@ -42905,14 +43015,22 @@ class PassNode extends TempNode {
 
 		const currentRenderTarget = renderer.getRenderTarget();
 		const currentMRT = renderer.getMRT();
+		const currentCubeFace = renderer.getActiveCubeFace();
+		const currentMipmapLevel = renderer.getActiveMipmapLevel();
 
-		renderer.setRenderTarget( this.renderTarget );
-		renderer.setMRT( this._mrt );
+		try {
 
-		await renderer.compileAsync( this.scene, this.camera );
+			renderer.setRenderTarget( this.renderTarget );
+			renderer.setMRT( this._mrt );
 
-		renderer.setRenderTarget( currentRenderTarget );
-		renderer.setMRT( currentMRT );
+			return renderer.compileAsync( this.scene, this.camera );
+
+		} finally {
+
+			renderer.setRenderTarget( currentRenderTarget, currentCubeFace, currentMipmapLevel );
+			renderer.setMRT( currentMRT );
+
+		}
 
 	}
 
@@ -62558,6 +62676,26 @@ class Renderer {
 
 		if ( this._isDeviceLost === true ) return;
 
+		if ( targetScene === null ) targetScene = scene;
+
+		const sceneRef = ( scene.isScene === true ) ? scene : ( targetScene.isScene === true ) ? targetScene : _scene;
+		const overrideMaterial = sceneRef.overrideMaterial;
+		const state = {
+			_renderTarget: this._renderTarget,
+			_outputRenderTarget: this._outputRenderTarget,
+			_activeCubeFace: this._activeCubeFace,
+			_activeMipmapLevel: this._activeMipmapLevel,
+			_mrt: this._mrt,
+			contextNode: this.contextNode,
+			lighting: this.lighting,
+			toneMapping: this.toneMapping,
+			outputColorSpace: this.outputColorSpace,
+			opaque: this.opaque,
+			transparent: this.transparent,
+			depth: this.depth,
+			stencil: this.stencil
+		};
+
 		if ( this._initialized === false ) await this.init();
 
 		if ( this.shadowMap.type === PCFSoftShadowMap ) {
@@ -62568,185 +62706,193 @@ class Renderer {
 
 		}
 
-		// preserve render tree
+		const nodeFrame = new NodeFrame();
+		const renderItems = [];
 
-		const nodeFrame = this._nodes.nodeFrame;
+		let contextState;
 
-		const previousRenderId = nodeFrame.renderId;
-		const previousRenderContext = this._currentRenderContext;
-		const previousRenderObjectFunction = this._currentRenderObjectFunction;
-		const previousHandleObjectFunction = this._handleObjectFunction;
-		const previousCompilationPromises = this._compilationPromises;
+		const compile = ( callback ) => {
 
-		//
+			const previousState = {};
 
-		if ( targetScene === null ) targetScene = scene;
+			for ( const name in state ) previousState[ name ] = this[ name ];
 
-		// Use the actual scene for caching when compiling individual objects
-		// This ensures cache keys match between compileAsync and render
-		const sceneRef = ( scene.isScene === true ) ? scene : ( targetScene.isScene === true ) ? targetScene : _scene;
+			const previousNodeFrame = this._nodes.nodeFrame;
+			const previousRenderContext = this._currentRenderContext;
+			const previousRenderObjectFunction = this._currentRenderObjectFunction;
+			const previousHandleObjectFunction = this._handleObjectFunction;
+			const previousCompilationPromises = this._compilationPromises;
+			const previousSourceMaterial = this._currentSourceMaterial;
+			const previousIsPreCompiling = this._isPreCompiling;
+			const previousOverrideMaterial = sceneRef.overrideMaterial;
 
-		// Match render()'s logic: use frameBufferTarget when needsFrameBufferTarget is true
-		const useFrameBufferTarget = this.needsFrameBufferTarget && this._renderTarget === null;
-		const outputRenderTarget = this._renderTarget || this._outputRenderTarget;
-		const useXRCamera = this.xr.isPresenting === true && this.isOutputTarget;
-		const renderTarget = useFrameBufferTarget ? this._getFrameBufferTarget() : outputRenderTarget;
-		const renderContext = this._renderContexts.get( renderTarget, this._mrt );
-		const activeMipmapLevel = this._activeMipmapLevel;
+			let renderContext;
+			let previousContextState;
 
-		const compilationPromises = [];
+			try {
 
-		this._currentRenderContext = renderContext;
-		this._currentRenderObjectFunction = this.renderObject;
+				Object.assign( this, state );
 
-		this._handleObjectFunction = this._createObjectPipeline;
+				const useFrameBufferTarget = this.needsFrameBufferTarget && this._renderTarget === null;
+				const outputRenderTarget = this._renderTarget || this._outputRenderTarget;
+				const useXRCamera = this.xr.isPresenting === true && this.isOutputTarget;
+				const renderTarget = useFrameBufferTarget ? this._getFrameBufferTarget() : outputRenderTarget;
 
-		this._compilationPromises = compilationPromises;
+				renderContext = this._renderContexts.get( renderTarget, this._mrt );
+				previousContextState = { ...renderContext };
 
-		nodeFrame.renderId ++;
+				if ( contextState !== undefined ) Object.assign( renderContext, contextState );
+				if ( useFrameBufferTarget ) this._renderTarget = renderTarget;
 
-		//
+				this._currentRenderContext = renderContext;
+				this._currentRenderObjectFunction = this.renderObject;
+				this._handleObjectFunction = this._createObjectPipeline;
+				this._isPreCompiling = true;
+				sceneRef.overrideMaterial = overrideMaterial;
+				nodeFrame.frameId = previousNodeFrame.frameId;
+				nodeFrame.time = previousNodeFrame.time;
+				nodeFrame.deltaTime = previousNodeFrame.deltaTime;
+				nodeFrame.renderId ++;
+				this._nodes.nodeFrame = nodeFrame;
 
-		nodeFrame.update();
+				callback( renderContext, renderTarget, useXRCamera );
 
-		//
+			} finally {
 
-		renderContext.depth = this.depth;
-		renderContext.stencil = this.stencil;
+				Object.assign( this, previousState );
 
-		if ( ! renderContext.clippingContext ) renderContext.clippingContext = new ClippingContext();
-		renderContext.clippingContext.updateGlobal( sceneRef, camera );
+				if ( previousContextState !== undefined ) Object.assign( renderContext, previousContextState );
 
-		//
+				this._nodes.nodeFrame = previousNodeFrame;
+				sceneRef.overrideMaterial = previousOverrideMaterial;
+				this._currentRenderContext = previousRenderContext;
+				this._currentRenderObjectFunction = previousRenderObjectFunction;
+				this._handleObjectFunction = previousHandleObjectFunction;
+				this._compilationPromises = previousCompilationPromises;
+				this._currentSourceMaterial = previousSourceMaterial;
+				this._isPreCompiling = previousIsPreCompiling;
 
-		if ( scene.matrixWorldAutoUpdate === true ) scene.updateMatrixWorld();
+			}
 
-		camera = this._updateCamera( camera, useXRCamera );
+		};
 
-		//
+		compile( ( renderContext, renderTarget, useXRCamera ) => {
 
-		sceneRef.onBeforeRender( this, scene, camera, renderTarget );
+			this._currentRenderObjectFunction = ( ...params ) => renderItems.push( { params, side: params[ 4 ].side } );
 
-		//
+			renderContext.depth = this.depth;
+			renderContext.stencil = this.stencil;
+			renderContext.clippingContext = new ClippingContext();
+			renderContext.clippingContext.updateGlobal( sceneRef, camera );
 
-		_projScreenMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+			if ( scene.matrixWorldAutoUpdate === true ) scene.updateMatrixWorld();
 
-		if ( camera.isArrayCamera ) {
+			camera = this._updateCamera( camera, useXRCamera );
 
-			_frustumArray.setFromArrayCamera( camera );
+			sceneRef.onBeforeRender( this, scene, camera, renderTarget );
 
-		} else {
+			_projScreenMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
 
-			_frustum.setFromProjectionMatrix( _projScreenMatrix, camera.coordinateSystem, camera.reversedDepth );
+			if ( camera.isArrayCamera ) {
 
-		}
+				_frustumArray.setFromArrayCamera( camera );
 
-		// Use sceneRef for render list to ensure lightsNode matches between compileAsync and render
-		const renderList = this._renderLists.get( sceneRef, camera, this.lighting );
-		renderList.begin();
+			} else {
 
-		this._projectObject( scene, camera, 0, renderList, renderContext.clippingContext );
+				_frustum.setFromProjectionMatrix( _projScreenMatrix, camera.coordinateSystem, camera.reversedDepth );
 
-		// include lights from target scene
-		if ( targetScene !== scene ) {
+			}
 
-			targetScene.traverseVisible( function ( object ) {
+			const renderList = this._renderLists.get( sceneRef, camera, this.lighting );
+			renderList.begin();
 
-				if ( object.isLight && object.layers.test( camera.layers ) ) {
+			this._projectObject( scene, camera, 0, renderList, renderContext.clippingContext );
 
-					renderList.pushLight( object );
+			if ( targetScene !== scene ) {
+
+				targetScene.traverseVisible( function ( object ) {
+
+					if ( object.isLight && object.layers.test( camera.layers ) ) {
+
+						renderList.pushLight( object );
+
+					}
+
+				} );
+
+			}
+
+			renderList.finish();
+
+			if ( renderTarget !== null ) {
+
+				this._textures.updateRenderTarget( renderTarget, this._activeMipmapLevel );
+
+				const renderTargetData = this._textures.get( renderTarget );
+
+				renderContext.textures = renderTargetData.textures;
+				renderContext.depthTexture = renderTargetData.depthTexture;
+				renderContext.renderTarget = renderTarget;
+				renderContext.depth = renderTarget.depthBuffer;
+				renderContext.stencil = renderTarget.stencilBuffer;
+
+			} else {
+
+				renderContext.textures = null;
+				renderContext.depthTexture = null;
+				renderContext.renderTarget = null;
+
+			}
+
+			this._background.update( targetScene !== scene ? targetScene : sceneRef, renderList, renderContext );
+
+			const lightsNode = renderList.lightsNode;
+
+			const collect = ( list, camera ) => {
+
+				for ( const bundle of list.bundles ) collect( bundle.renderList, bundle.camera );
+
+				if ( this.opaque === true && list.opaque.length > 0 ) this._renderObjects( list.opaque, camera, sceneRef, lightsNode );
+				if ( this.transparent === true && list.transparent.length > 0 ) this._renderTransparents( list.transparent, list.transparentDoublePass, camera, sceneRef, lightsNode );
+
+			};
+
+			collect( renderList, camera );
+
+			contextState = { ...renderContext };
+
+		} );
+
+		const total = renderItems.length;
+		let loaded = 0;
+
+		await Promise.all( renderItems.map( async ( item ) => {
+
+			await yieldToMain();
+
+			const pipelinePromises = [];
+
+			compile( () => {
+
+				this._compilationPromises = pipelinePromises;
+
+				const material = item.params[ 4 ];
+				const side = material.side;
+
+				try {
+
+					material.side = item.side;
+					this.renderObject( ...item.params );
+
+				} finally {
+
+					material.side = side;
 
 				}
 
 			} );
 
-		}
-
-		renderList.finish();
-
-		//
-
-		if ( renderTarget !== null ) {
-
-			this._textures.updateRenderTarget( renderTarget, activeMipmapLevel );
-
-			const renderTargetData = this._textures.get( renderTarget );
-
-			renderContext.textures = renderTargetData.textures;
-			renderContext.depthTexture = renderTargetData.depthTexture;
-
-		} else {
-
-			renderContext.textures = null;
-			renderContext.depthTexture = null;
-
-		}
-
-		//
-
-		if ( targetScene !== scene ) {
-
-			this._background.update( targetScene, renderList, renderContext );
-
-		} else {
-
-			this._background.update( sceneRef, renderList, renderContext );
-
-		}
-
-		// process render lists - _createObjectPipeline will push async promises to _compilationPromises
-
-		const opaqueObjects = renderList.opaque;
-		const transparentObjects = renderList.transparent;
-		const transparentDoublePassObjects = renderList.transparentDoublePass;
-		const lightsNode = renderList.lightsNode;
-
-		if ( this.opaque === true && opaqueObjects.length > 0 ) this._renderObjects( opaqueObjects, camera, sceneRef, lightsNode );
-		if ( this.transparent === true && transparentObjects.length > 0 ) this._renderTransparents( transparentObjects, transparentDoublePassObjects, camera, sceneRef, lightsNode );
-
-		// restore render tree
-
-		nodeFrame.renderId = previousRenderId;
-
-		this._currentRenderContext = previousRenderContext;
-		this._currentRenderObjectFunction = previousRenderObjectFunction;
-		this._handleObjectFunction = previousHandleObjectFunction;
-		this._compilationPromises = previousCompilationPromises;
-
-		// Process compilation work items sequentially to avoid freezing
-		// Yields between objects to keep animation smooth
-
-		const total = compilationPromises.length;
-		let loaded = 0;
-
-		for ( const item of compilationPromises ) {
-
-			const renderObject = this._objects.get( item.object, item.material, item.scene, item.camera, item.lightsNode, item.renderContext, item.clippingContext, item.passId );
-			renderObject.drawRange = item.object.geometry.drawRange;
-			renderObject.group = item.group;
-
-			// Use async node building to yield to main thread
-			await this._nodes.getForRenderAsync( renderObject );
-
-			this._isPreCompiling = true; // note: no awaits are allowed when this flag is true otherwise the state leaks outside of this method
-			this._nodes.updateBefore( renderObject );
-			this._geometries.updateForRender( renderObject );
-			this._nodes.updateForRender( renderObject );
-			this._bindings.updateForRender( renderObject );
-			this._isPreCompiling = false;
-
-			// Wait for pipeline creation
-			const pipelinePromises = [];
-			this._pipelines.getForRender( renderObject, pipelinePromises );
-			if ( pipelinePromises.length > 0 ) {
-
-				await Promise.all( pipelinePromises );
-
-			}
-
-			this._isPreCompiling = true;
-			this._nodes.updateAfter( renderObject );
-			this._isPreCompiling = false;
+			await Promise.all( pipelinePromises );
 
 			loaded ++;
 
@@ -62756,10 +62902,7 @@ class Renderer {
 
 			}
 
-			// Yield between objects to allow animation frames
-			await yieldToMain();
-
-		}
+		} ) );
 
 	}
 
@@ -63102,34 +63245,19 @@ class Renderer {
 
 		} else {
 
-			const { renderObjects } = renderBundleData;
+			const previousHandleObjectFunction = this._handleObjectFunction;
+			this._handleObjectFunction = this._updateBundleObject;
 
-			for ( let i = 0, l = renderObjects.length; i < l; i ++ ) {
+			try {
 
-				const renderObject = renderObjects[ i ];
+				const { opaque, transparent, transparentDoublePass } = renderList;
 
-				const refreshType = this._nodes.needsRefresh( renderObject );
+				if ( this.opaque === true ) this._renderObjects( opaque, camera, sceneRef, lightsNode );
+				if ( this.transparent === true ) this._renderTransparents( transparent, transparentDoublePass, camera, sceneRef, lightsNode );
 
-				if ( refreshType === RenderObjectRefreshType.FULL ) {
+			} finally {
 
-					this._nodes.updateBefore( renderObject );
-
-					this._geometries.updateForRender( renderObject );
-					this._nodes.updateForRender( renderObject );
-					this._bindings.updateForRender( renderObject );
-
-					this._nodes.updateAfter( renderObject );
-
-				} else if ( refreshType === RenderObjectRefreshType.SHARED ) {
-
-					this._nodes.updateBefore( renderObject );
-
-					this._nodes.updateForRender( renderObject );
-					this._bindings.updateSharedForRender( renderObject );
-
-					this._nodes.updateAfter( renderObject );
-
-				}
+				this._handleObjectFunction = previousHandleObjectFunction;
 
 			}
 
@@ -65014,16 +65142,6 @@ class Renderer {
 
 				renderList.begin();
 
-				if ( renderBundleData.renderObjects === undefined ) {
-
-					renderBundleData.renderObjects = [];
-
-				} else {
-
-					renderBundleData.renderObjects.length = 0;
-
-				}
-
 				const children = object.children;
 
 				for ( let i = 0, l = children.length; i < l; i ++ ) {
@@ -65367,10 +65485,14 @@ class Renderer {
 	renderObject( object, scene, camera, geometry, material, group, lightsNode, clippingContext = null, passId = null ) {
 
 		let materialOverride = false;
+		let overrideMaterial;
 		let materialColorNode;
 		let materialDepthNode;
 		let materialPositionNode;
 		let materialSide;
+		let materialAlphaTest;
+		let materialAlphaMap;
+		let materialTransparent;
 		let materialDisplacementMap;
 		let materialDisplacementScale;
 		let materialDisplacementBias;
@@ -65383,95 +65505,105 @@ class Renderer {
 
 		//
 
-		if ( material.allowOverride === true && scene.overrideMaterial !== null ) {
+		try {
 
-			this._currentSourceMaterial = material;
+			if ( material.allowOverride === true && scene.overrideMaterial !== null ) {
 
-			const overrideMaterial = scene.overrideMaterial;
+				this._currentSourceMaterial = material;
 
-			materialOverride = true;
+				overrideMaterial = scene.overrideMaterial;
 
-			// store original nodes
-			materialColorNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.colorNode : null;
-			materialDepthNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.depthNode : null;
-			materialPositionNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.positionNode : null;
-			materialSide = scene.overrideMaterial.side;
-			materialDisplacementMap = overrideMaterial.displacementMap;
-			materialDisplacementScale = overrideMaterial.displacementScale;
-			materialDisplacementBias = overrideMaterial.displacementBias;
+				materialOverride = true;
 
-			if ( material.positionNode && material.positionNode.isNode ) {
+				// store original nodes
+				materialColorNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.colorNode : null;
+				materialDepthNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.depthNode : null;
+				materialPositionNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.positionNode : null;
+				materialSide = overrideMaterial.side;
+				materialAlphaTest = overrideMaterial.alphaTest;
+				materialAlphaMap = overrideMaterial.alphaMap;
+				materialTransparent = overrideMaterial.transparent;
+				materialDisplacementMap = overrideMaterial.displacementMap;
+				materialDisplacementScale = overrideMaterial.displacementScale;
+				materialDisplacementBias = overrideMaterial.displacementBias;
 
-				overrideMaterial.positionNode = material.positionNode;
+				if ( material.positionNode && material.positionNode.isNode ) {
 
-			}
-
-			overrideMaterial.alphaTest = material.alphaTest;
-			overrideMaterial.alphaMap = material.alphaMap;
-			overrideMaterial.displacementMap = material.displacementMap;
-			overrideMaterial.displacementScale = material.displacementScale;
-			overrideMaterial.displacementBias = material.displacementBias;
-			overrideMaterial.transparent = material.transparent || material.transmission > 0 ||
-				( material.transmissionNode && material.transmissionNode.isNode ) ||
-				( material.backdropNode && material.backdropNode.isNode );
-
-			if ( overrideMaterial.isShadowPassMaterial ) {
-
-				const { colorNode, depthNode, positionNode } = this._getShadowNodes( material );
-
-				if ( this.shadowMap.type === VSMShadowMap ) {
-
-					overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : material.side;
-
-				} else {
-
-					overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : _shadowSide[ material.side ];
+					overrideMaterial.positionNode = material.positionNode;
 
 				}
 
-				if ( colorNode !== null ) overrideMaterial.colorNode = colorNode;
-				if ( depthNode !== null ) overrideMaterial.depthNode = depthNode;
-				if ( positionNode !== null ) overrideMaterial.positionNode = positionNode;
+				overrideMaterial.alphaTest = material.alphaTest;
+				overrideMaterial.alphaMap = material.alphaMap;
+				overrideMaterial.displacementMap = material.displacementMap;
+				overrideMaterial.displacementScale = material.displacementScale;
+				overrideMaterial.displacementBias = material.displacementBias;
+				overrideMaterial.transparent = material.transparent || material.transmission > 0 ||
+					( material.transmissionNode && material.transmissionNode.isNode ) ||
+					( material.backdropNode && material.backdropNode.isNode );
+
+				if ( overrideMaterial.isShadowPassMaterial ) {
+
+					const { colorNode, depthNode, positionNode } = this._getShadowNodes( material );
+
+					if ( this.shadowMap.type === VSMShadowMap ) {
+
+						overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : material.side;
+
+					} else {
+
+						overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : _shadowSide[ material.side ];
+
+					}
+
+					if ( colorNode !== null ) overrideMaterial.colorNode = colorNode;
+					if ( depthNode !== null ) overrideMaterial.depthNode = depthNode;
+					if ( positionNode !== null ) overrideMaterial.positionNode = positionNode;
+
+				}
+
+				material = overrideMaterial;
 
 			}
 
-			material = overrideMaterial;
+			//
+
+			if ( material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false ) {
+
+				material.side = BackSide;
+				this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, 'backSide' ); // create backSide pass id
+
+				material.side = FrontSide;
+				this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId ); // use default pass id
+
+				material.side = DoubleSide;
+
+			} else {
+
+				this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId );
+
+			}
+
+		} finally {
+
+			if ( materialOverride ) {
+
+				overrideMaterial.colorNode = materialColorNode;
+				overrideMaterial.depthNode = materialDepthNode;
+				overrideMaterial.positionNode = materialPositionNode;
+				overrideMaterial.side = materialSide;
+				overrideMaterial.alphaTest = materialAlphaTest;
+				overrideMaterial.alphaMap = materialAlphaMap;
+				overrideMaterial.transparent = materialTransparent;
+				overrideMaterial.displacementMap = materialDisplacementMap;
+				overrideMaterial.displacementScale = materialDisplacementScale;
+				overrideMaterial.displacementBias = materialDisplacementBias;
+
+			}
+
+			this._currentSourceMaterial = previousSourceMaterial;
 
 		}
-
-		//
-
-		if ( material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false ) {
-
-			material.side = BackSide;
-			this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, 'backSide' ); // create backSide pass id
-
-			material.side = FrontSide;
-			this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId ); // use default pass id
-
-			material.side = DoubleSide;
-
-		} else {
-
-			this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId );
-
-		}
-
-		//
-
-		if ( materialOverride ) {
-
-			scene.overrideMaterial.colorNode = materialColorNode;
-			scene.overrideMaterial.depthNode = materialDepthNode;
-			scene.overrideMaterial.positionNode = materialPositionNode;
-			scene.overrideMaterial.side = materialSide;
-			scene.overrideMaterial.displacementMap = materialDisplacementMap;
-			scene.overrideMaterial.displacementScale = materialDisplacementScale;
-			scene.overrideMaterial.displacementBias = materialDisplacementBias;
-
-		}
-
-		this._currentSourceMaterial = previousSourceMaterial;
 
 		//
 
@@ -65519,35 +65651,13 @@ class Renderer {
 
 		if ( this._currentRenderBundle !== null ) {
 
-			const renderBundleData = this.backend.get( this._currentRenderBundle );
-
-			renderBundleData.renderObjects.push( renderObject );
-
 			renderObject.bundle = this._currentRenderBundle.bundleGroup;
 
 		}
 
 		//
 
-		const refreshType = this._nodes.needsRefresh( renderObject );
-
-		if ( refreshType === RenderObjectRefreshType.FULL ) {
-
-			this._nodes.updateBefore( renderObject );
-
-			this._geometries.updateForRender( renderObject );
-
-			this._nodes.updateForRender( renderObject );
-			this._bindings.updateForRender( renderObject );
-
-		} else if ( refreshType === RenderObjectRefreshType.SHARED ) {
-
-			this._nodes.updateBefore( renderObject );
-
-			this._nodes.updateForRender( renderObject );
-			this._bindings.updateSharedForRender( renderObject );
-
-		}
+		const refreshType = this._updateRenderObject( renderObject );
 
 		this._pipelines.updateForRender( renderObject );
 
@@ -65557,9 +65667,55 @@ class Renderer {
 
 			this.backend.draw( renderObject, this.info );
 
-			if ( refreshType !== RenderObjectRefreshType.NONE ) this._nodes.updateAfter( renderObject );
+			if ( refreshType !== RenderObjectRefreshType.NONE || renderObject.getMonitor().hasNode ) this._nodes.updateAfter( renderObject );
 
 		}
+
+	}
+
+	_updateBundleObject( object, material, scene, camera, lightsNode, group, clippingContext, passId ) {
+
+		const renderObject = this._objects.get( object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext, passId );
+		const refreshType = this._updateRenderObject( renderObject );
+
+		if ( refreshType !== RenderObjectRefreshType.NONE || renderObject.getMonitor().hasNode ) this._nodes.updateAfter( renderObject );
+
+	}
+
+	_updateRenderObject( renderObject ) {
+
+		const hasNode = renderObject.getMonitor().hasNode;
+
+		if ( hasNode ) {
+
+			this._nodes.updateBefore( renderObject );
+			this._nodes.updateForRender( renderObject );
+
+		}
+
+		const refreshType = this._nodes.needsRefresh( renderObject );
+
+		if ( refreshType === RenderObjectRefreshType.FULL ) {
+
+			if ( hasNode === false ) this._nodes.updateBefore( renderObject );
+			this._geometries.updateForRender( renderObject );
+			if ( hasNode === false ) this._nodes.updateForRender( renderObject );
+			this._bindings.updateForRender( renderObject );
+
+		} else if ( refreshType === RenderObjectRefreshType.SHARED ) {
+
+			if ( hasNode === false ) {
+
+				this._nodes.updateBefore( renderObject );
+				this._nodes.updateForRender( renderObject );
+
+			}
+
+			this._bindings.updateSharedForRender( renderObject );
+
+		}
+
+		return refreshType;
 
 	}
 
@@ -65579,27 +65735,6 @@ class Renderer {
 	 */
 	_createObjectPipeline( object, material, scene, camera, lightsNode, group, clippingContext, passId ) {
 
-		// If in async compilation mode, queue the work for sequential execution
-		if ( this._compilationPromises !== null ) {
-
-			// Store work items instead of promises - will be processed sequentially
-			this._compilationPromises.push( {
-				object,
-				material,
-				scene,
-				camera,
-				lightsNode,
-				group,
-				clippingContext,
-				passId,
-				renderContext: this._currentRenderContext
-			} );
-
-			return;
-
-		}
-
-		// Sync path
 		const renderObject = this._objects.get( object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext, passId );
 		renderObject.drawRange = object.geometry.drawRange;
 		renderObject.group = group;
@@ -65614,8 +65749,6 @@ class Renderer {
 		this._bindings.updateForRender( renderObject );
 
 		this._pipelines.getForRender( renderObject, this._compilationPromises );
-
-		this._nodes.updateAfter( renderObject );
 
 	}
 
@@ -89850,7 +89983,7 @@ class WebGPUBackend extends Backend {
 	 */
 	createStorageAttribute( attribute ) {
 
-		this.attributeUtils.createAttribute( attribute, GPUBufferUsage.STORAGE | GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST );
+		this.attributeUtils.createAttribute( attribute, GPUBufferUsage.STORAGE | GPUBufferUsage.VERTEX | GPUBufferUsage.INDEX | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST );
 
 	}
 
