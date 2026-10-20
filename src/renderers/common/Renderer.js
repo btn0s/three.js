@@ -1070,9 +1070,16 @@ class Renderer {
 
 			const lightsNode = renderList.lightsNode;
 
+			const collect = ( list, camera ) => {
 
-			if ( this.opaque === true && renderList.opaque.length > 0 ) this._renderObjects( renderList.opaque, camera, sceneRef, lightsNode );
-			if ( this.transparent === true && renderList.transparent.length > 0 ) this._renderTransparents( renderList.transparent, renderList.transparentDoublePass, camera, sceneRef, lightsNode );
+				for ( const bundle of list.bundles ) collect( bundle.renderList, bundle.camera );
+
+				if ( this.opaque === true && list.opaque.length > 0 ) this._renderObjects( list.opaque, camera, sceneRef, lightsNode );
+				if ( this.transparent === true && list.transparent.length > 0 ) this._renderTransparents( list.transparent, list.transparentDoublePass, camera, sceneRef, lightsNode );
+
+			};
+
+			collect( renderList, camera );
 
 			contextState = { ...renderContext };
 
@@ -1460,34 +1467,19 @@ class Renderer {
 
 		} else {
 
-			const { renderObjects } = renderBundleData;
+			const previousHandleObjectFunction = this._handleObjectFunction;
+			this._handleObjectFunction = this._updateBundleObject;
 
-			for ( let i = 0, l = renderObjects.length; i < l; i ++ ) {
+			try {
 
-				const renderObject = renderObjects[ i ];
+				const { opaque, transparent, transparentDoublePass } = renderList;
 
-				const refreshType = this._nodes.needsRefresh( renderObject );
+				if ( this.opaque === true ) this._renderObjects( opaque, camera, sceneRef, lightsNode );
+				if ( this.transparent === true ) this._renderTransparents( transparent, transparentDoublePass, camera, sceneRef, lightsNode );
 
-				if ( refreshType === RenderObjectRefreshType.FULL ) {
+			} finally {
 
-					this._nodes.updateBefore( renderObject );
-
-					this._geometries.updateForRender( renderObject );
-					this._nodes.updateForRender( renderObject );
-					this._bindings.updateForRender( renderObject );
-
-					this._nodes.updateAfter( renderObject );
-
-				} else if ( refreshType === RenderObjectRefreshType.SHARED ) {
-
-					this._nodes.updateBefore( renderObject );
-
-					this._nodes.updateForRender( renderObject );
-					this._bindings.updateSharedForRender( renderObject );
-
-					this._nodes.updateAfter( renderObject );
-
-				}
+				this._handleObjectFunction = previousHandleObjectFunction;
 
 			}
 
@@ -3372,16 +3364,6 @@ class Renderer {
 
 				renderList.begin();
 
-				if ( renderBundleData.renderObjects === undefined ) {
-
-					renderBundleData.renderObjects = [];
-
-				} else {
-
-					renderBundleData.renderObjects.length = 0;
-
-				}
-
 				const children = object.children;
 
 				for ( let i = 0, l = children.length; i < l; i ++ ) {
@@ -3725,10 +3707,14 @@ class Renderer {
 	renderObject( object, scene, camera, geometry, material, group, lightsNode, clippingContext = null, passId = null ) {
 
 		let materialOverride = false;
+		let overrideMaterial;
 		let materialColorNode;
 		let materialDepthNode;
 		let materialPositionNode;
 		let materialSide;
+		let materialAlphaTest;
+		let materialAlphaMap;
+		let materialTransparent;
 		let materialDisplacementMap;
 		let materialDisplacementScale;
 		let materialDisplacementBias;
@@ -3741,95 +3727,105 @@ class Renderer {
 
 		//
 
-		if ( material.allowOverride === true && scene.overrideMaterial !== null ) {
+		try {
 
-			this._currentSourceMaterial = material;
+			if ( material.allowOverride === true && scene.overrideMaterial !== null ) {
 
-			const overrideMaterial = scene.overrideMaterial;
+				this._currentSourceMaterial = material;
 
-			materialOverride = true;
+				overrideMaterial = scene.overrideMaterial;
 
-			// store original nodes
-			materialColorNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.colorNode : null;
-			materialDepthNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.depthNode : null;
-			materialPositionNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.positionNode : null;
-			materialSide = scene.overrideMaterial.side;
-			materialDisplacementMap = overrideMaterial.displacementMap;
-			materialDisplacementScale = overrideMaterial.displacementScale;
-			materialDisplacementBias = overrideMaterial.displacementBias;
+				materialOverride = true;
 
-			if ( material.positionNode && material.positionNode.isNode ) {
+				// store original nodes
+				materialColorNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.colorNode : null;
+				materialDepthNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.depthNode : null;
+				materialPositionNode = ( overrideMaterial.isNodeMaterial ) ? overrideMaterial.positionNode : null;
+				materialSide = overrideMaterial.side;
+				materialAlphaTest = overrideMaterial.alphaTest;
+				materialAlphaMap = overrideMaterial.alphaMap;
+				materialTransparent = overrideMaterial.transparent;
+				materialDisplacementMap = overrideMaterial.displacementMap;
+				materialDisplacementScale = overrideMaterial.displacementScale;
+				materialDisplacementBias = overrideMaterial.displacementBias;
 
-				overrideMaterial.positionNode = material.positionNode;
+				if ( material.positionNode && material.positionNode.isNode ) {
 
-			}
-
-			overrideMaterial.alphaTest = material.alphaTest;
-			overrideMaterial.alphaMap = material.alphaMap;
-			overrideMaterial.displacementMap = material.displacementMap;
-			overrideMaterial.displacementScale = material.displacementScale;
-			overrideMaterial.displacementBias = material.displacementBias;
-			overrideMaterial.transparent = material.transparent || material.transmission > 0 ||
-				( material.transmissionNode && material.transmissionNode.isNode ) ||
-				( material.backdropNode && material.backdropNode.isNode );
-
-			if ( overrideMaterial.isShadowPassMaterial ) {
-
-				const { colorNode, depthNode, positionNode } = this._getShadowNodes( material );
-
-				if ( this.shadowMap.type === VSMShadowMap ) {
-
-					overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : material.side;
-
-				} else {
-
-					overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : _shadowSide[ material.side ];
+					overrideMaterial.positionNode = material.positionNode;
 
 				}
 
-				if ( colorNode !== null ) overrideMaterial.colorNode = colorNode;
-				if ( depthNode !== null ) overrideMaterial.depthNode = depthNode;
-				if ( positionNode !== null ) overrideMaterial.positionNode = positionNode;
+				overrideMaterial.alphaTest = material.alphaTest;
+				overrideMaterial.alphaMap = material.alphaMap;
+				overrideMaterial.displacementMap = material.displacementMap;
+				overrideMaterial.displacementScale = material.displacementScale;
+				overrideMaterial.displacementBias = material.displacementBias;
+				overrideMaterial.transparent = material.transparent || material.transmission > 0 ||
+					( material.transmissionNode && material.transmissionNode.isNode ) ||
+					( material.backdropNode && material.backdropNode.isNode );
+
+				if ( overrideMaterial.isShadowPassMaterial ) {
+
+					const { colorNode, depthNode, positionNode } = this._getShadowNodes( material );
+
+					if ( this.shadowMap.type === VSMShadowMap ) {
+
+						overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : material.side;
+
+					} else {
+
+						overrideMaterial.side = ( material.shadowSide !== null ) ? material.shadowSide : _shadowSide[ material.side ];
+
+					}
+
+					if ( colorNode !== null ) overrideMaterial.colorNode = colorNode;
+					if ( depthNode !== null ) overrideMaterial.depthNode = depthNode;
+					if ( positionNode !== null ) overrideMaterial.positionNode = positionNode;
+
+				}
+
+				material = overrideMaterial;
 
 			}
 
-			material = overrideMaterial;
+			//
+
+			if ( material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false ) {
+
+				material.side = BackSide;
+				this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, 'backSide' ); // create backSide pass id
+
+				material.side = FrontSide;
+				this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId ); // use default pass id
+
+				material.side = DoubleSide;
+
+			} else {
+
+				this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId );
+
+			}
+
+		} finally {
+
+			if ( materialOverride ) {
+
+				overrideMaterial.colorNode = materialColorNode;
+				overrideMaterial.depthNode = materialDepthNode;
+				overrideMaterial.positionNode = materialPositionNode;
+				overrideMaterial.side = materialSide;
+				overrideMaterial.alphaTest = materialAlphaTest;
+				overrideMaterial.alphaMap = materialAlphaMap;
+				overrideMaterial.transparent = materialTransparent;
+				overrideMaterial.displacementMap = materialDisplacementMap;
+				overrideMaterial.displacementScale = materialDisplacementScale;
+				overrideMaterial.displacementBias = materialDisplacementBias;
+
+			}
+
+			this._currentSourceMaterial = previousSourceMaterial;
 
 		}
-
-		//
-
-		if ( material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false ) {
-
-			material.side = BackSide;
-			this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, 'backSide' ); // create backSide pass id
-
-			material.side = FrontSide;
-			this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId ); // use default pass id
-
-			material.side = DoubleSide;
-
-		} else {
-
-			this._handleObjectFunction( object, material, scene, camera, lightsNode, group, clippingContext, passId );
-
-		}
-
-		//
-
-		if ( materialOverride ) {
-
-			scene.overrideMaterial.colorNode = materialColorNode;
-			scene.overrideMaterial.depthNode = materialDepthNode;
-			scene.overrideMaterial.positionNode = materialPositionNode;
-			scene.overrideMaterial.side = materialSide;
-			scene.overrideMaterial.displacementMap = materialDisplacementMap;
-			scene.overrideMaterial.displacementScale = materialDisplacementScale;
-			scene.overrideMaterial.displacementBias = materialDisplacementBias;
-
-		}
-
-		this._currentSourceMaterial = previousSourceMaterial;
 
 		//
 
@@ -3877,10 +3873,6 @@ class Renderer {
 
 		if ( this._currentRenderBundle !== null ) {
 
-			const renderBundleData = this.backend.get( this._currentRenderBundle );
-
-			renderBundleData.renderObjects.push( renderObject );
-
 			renderObject.bundle = this._currentRenderBundle.bundleGroup;
 
 		}
@@ -3916,6 +3908,30 @@ class Renderer {
 			this.backend.draw( renderObject, this.info );
 
 			if ( refreshType !== RenderObjectRefreshType.NONE ) this._nodes.updateAfter( renderObject );
+
+		}
+
+	}
+
+	_updateBundleObject( object, material, scene, camera, lightsNode, group, clippingContext, passId ) {
+
+		const renderObject = this._objects.get( object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext, passId );
+		const refreshType = this._nodes.needsRefresh( renderObject );
+
+		if ( refreshType === RenderObjectRefreshType.FULL ) {
+
+			this._nodes.updateBefore( renderObject );
+			this._geometries.updateForRender( renderObject );
+			this._nodes.updateForRender( renderObject );
+			this._bindings.updateForRender( renderObject );
+			this._nodes.updateAfter( renderObject );
+
+		} else if ( refreshType === RenderObjectRefreshType.SHARED ) {
+
+			this._nodes.updateBefore( renderObject );
+			this._nodes.updateForRender( renderObject );
+			this._bindings.updateSharedForRender( renderObject );
+			this._nodes.updateAfter( renderObject );
 
 		}
 
