@@ -784,14 +784,22 @@ class PassNode extends TempNode {
 
 		const currentRenderTarget = renderer.getRenderTarget();
 		const currentMRT = renderer.getMRT();
+		const currentCubeFace = renderer.getActiveCubeFace();
+		const currentMipmapLevel = renderer.getActiveMipmapLevel();
 
-		renderer.setRenderTarget( this.renderTarget );
-		renderer.setMRT( this._mrt );
+		try {
 
-		await renderer.compileAsync( this.scene, this.camera );
+			renderer.setRenderTarget( this.renderTarget );
+			renderer.setMRT( this._mrt );
 
-		renderer.setRenderTarget( currentRenderTarget );
-		renderer.setMRT( currentMRT );
+			return renderer.compileAsync( this.scene, this.camera );
+
+		} finally {
+
+			renderer.setRenderTarget( currentRenderTarget, currentCubeFace, currentMipmapLevel );
+			renderer.setMRT( currentMRT );
+
+		}
 
 	}
 

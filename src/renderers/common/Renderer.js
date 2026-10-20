@@ -21,6 +21,7 @@ import InspectorBase from './InspectorBase.js';
 import CanvasTarget from './CanvasTarget.js';
 
 import NodeMaterial from '../../materials/nodes/NodeMaterial.js';
+import NodeFrame from '../../nodes/core/NodeFrame.js';
 
 import { Scene } from '../../scenes/Scene.js';
 import { ColorManagement } from '../../math/ColorManagement.js';
@@ -897,6 +898,26 @@ class Renderer {
 
 		if ( this._isDeviceLost === true ) return;
 
+		if ( targetScene === null ) targetScene = scene;
+
+		const sceneRef = ( scene.isScene === true ) ? scene : ( targetScene.isScene === true ) ? targetScene : _scene;
+		const overrideMaterial = sceneRef.overrideMaterial;
+		const state = {
+			_renderTarget: this._renderTarget,
+			_outputRenderTarget: this._outputRenderTarget,
+			_activeCubeFace: this._activeCubeFace,
+			_activeMipmapLevel: this._activeMipmapLevel,
+			_mrt: this._mrt,
+			contextNode: this.contextNode,
+			lighting: this.lighting,
+			toneMapping: this.toneMapping,
+			outputColorSpace: this.outputColorSpace,
+			opaque: this.opaque,
+			transparent: this.transparent,
+			depth: this.depth,
+			stencil: this.stencil
+		};
+
 		if ( this._initialized === false ) await this.init();
 
 		if ( this.shadowMap.type === PCFSoftShadowMap ) {
@@ -907,185 +928,186 @@ class Renderer {
 
 		}
 
-		// preserve render tree
+		const nodeFrame = new NodeFrame();
+		const renderItems = [];
 
-		const nodeFrame = this._nodes.nodeFrame;
+		let contextState;
 
-		const previousRenderId = nodeFrame.renderId;
-		const previousRenderContext = this._currentRenderContext;
-		const previousRenderObjectFunction = this._currentRenderObjectFunction;
-		const previousHandleObjectFunction = this._handleObjectFunction;
-		const previousCompilationPromises = this._compilationPromises;
+		const compile = ( callback ) => {
 
-		//
+			const previousState = {};
 
-		if ( targetScene === null ) targetScene = scene;
+			for ( const name in state ) previousState[ name ] = this[ name ];
 
-		// Use the actual scene for caching when compiling individual objects
-		// This ensures cache keys match between compileAsync and render
-		const sceneRef = ( scene.isScene === true ) ? scene : ( targetScene.isScene === true ) ? targetScene : _scene;
+			const previousNodeFrame = this._nodes.nodeFrame;
+			const previousRenderContext = this._currentRenderContext;
+			const previousRenderObjectFunction = this._currentRenderObjectFunction;
+			const previousHandleObjectFunction = this._handleObjectFunction;
+			const previousCompilationPromises = this._compilationPromises;
+			const previousSourceMaterial = this._currentSourceMaterial;
+			const previousIsPreCompiling = this._isPreCompiling;
+			const previousOverrideMaterial = sceneRef.overrideMaterial;
 
-		// Match render()'s logic: use frameBufferTarget when needsFrameBufferTarget is true
-		const useFrameBufferTarget = this.needsFrameBufferTarget && this._renderTarget === null;
-		const outputRenderTarget = this._renderTarget || this._outputRenderTarget;
-		const useXRCamera = this.xr.isPresenting === true && this.isOutputTarget;
-		const renderTarget = useFrameBufferTarget ? this._getFrameBufferTarget() : outputRenderTarget;
-		const renderContext = this._renderContexts.get( renderTarget, this._mrt );
-		const activeMipmapLevel = this._activeMipmapLevel;
+			let renderContext;
+			let previousContextState;
 
-		const compilationPromises = [];
+			try {
 
-		this._currentRenderContext = renderContext;
-		this._currentRenderObjectFunction = this.renderObject;
+				Object.assign( this, state );
 
-		this._handleObjectFunction = this._createObjectPipeline;
+				const useFrameBufferTarget = this.needsFrameBufferTarget && this._renderTarget === null;
+				const outputRenderTarget = this._renderTarget || this._outputRenderTarget;
+				const useXRCamera = this.xr.isPresenting === true && this.isOutputTarget;
+				const renderTarget = useFrameBufferTarget ? this._getFrameBufferTarget() : outputRenderTarget;
 
-		this._compilationPromises = compilationPromises;
+				renderContext = this._renderContexts.get( renderTarget, this._mrt );
+				previousContextState = { ...renderContext };
 
-		nodeFrame.renderId ++;
+				if ( contextState !== undefined ) Object.assign( renderContext, contextState );
+				if ( useFrameBufferTarget ) this._renderTarget = renderTarget;
 
-		//
+				this._currentRenderContext = renderContext;
+				this._currentRenderObjectFunction = this.renderObject;
+				this._handleObjectFunction = this._createObjectPipeline;
+				this._isPreCompiling = true;
+				sceneRef.overrideMaterial = overrideMaterial;
+				nodeFrame.frameId = previousNodeFrame.frameId;
+				nodeFrame.time = previousNodeFrame.time;
+				nodeFrame.deltaTime = previousNodeFrame.deltaTime;
+				nodeFrame.renderId ++;
+				this._nodes.nodeFrame = nodeFrame;
 
-		nodeFrame.update();
+				callback( renderContext, renderTarget, useXRCamera );
 
-		//
+			} finally {
 
-		renderContext.depth = this.depth;
-		renderContext.stencil = this.stencil;
+				Object.assign( this, previousState );
 
-		if ( ! renderContext.clippingContext ) renderContext.clippingContext = new ClippingContext();
-		renderContext.clippingContext.updateGlobal( sceneRef, camera );
+				if ( previousContextState !== undefined ) Object.assign( renderContext, previousContextState );
 
-		//
+				this._nodes.nodeFrame = previousNodeFrame;
+				sceneRef.overrideMaterial = previousOverrideMaterial;
+				this._currentRenderContext = previousRenderContext;
+				this._currentRenderObjectFunction = previousRenderObjectFunction;
+				this._handleObjectFunction = previousHandleObjectFunction;
+				this._compilationPromises = previousCompilationPromises;
+				this._currentSourceMaterial = previousSourceMaterial;
+				this._isPreCompiling = previousIsPreCompiling;
 
-		if ( scene.matrixWorldAutoUpdate === true ) scene.updateMatrixWorld();
+			}
 
-		camera = this._updateCamera( camera, useXRCamera );
+		};
 
-		//
+		compile( ( renderContext, renderTarget, useXRCamera ) => {
 
-		sceneRef.onBeforeRender( this, scene, camera, renderTarget );
+			this._currentRenderObjectFunction = ( ...params ) => renderItems.push( { params, side: params[ 4 ].side } );
 
-		//
+			renderContext.depth = this.depth;
+			renderContext.stencil = this.stencil;
+			renderContext.clippingContext = new ClippingContext();
+			renderContext.clippingContext.updateGlobal( sceneRef, camera );
 
-		_projScreenMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
+			if ( scene.matrixWorldAutoUpdate === true ) scene.updateMatrixWorld();
 
-		if ( camera.isArrayCamera ) {
+			camera = this._updateCamera( camera, useXRCamera );
 
-			_frustumArray.setFromArrayCamera( camera );
+			sceneRef.onBeforeRender( this, scene, camera, renderTarget );
 
-		} else {
+			_projScreenMatrix.multiplyMatrices( camera.projectionMatrix, camera.matrixWorldInverse );
 
-			_frustum.setFromProjectionMatrix( _projScreenMatrix, camera.coordinateSystem, camera.reversedDepth );
+			if ( camera.isArrayCamera ) {
 
-		}
+				_frustumArray.setFromArrayCamera( camera );
 
-		// Use sceneRef for render list to ensure lightsNode matches between compileAsync and render
-		const renderList = this._renderLists.get( sceneRef, camera, this.lighting );
-		renderList.begin();
+			} else {
 
-		this._projectObject( scene, camera, 0, renderList, renderContext.clippingContext );
+				_frustum.setFromProjectionMatrix( _projScreenMatrix, camera.coordinateSystem, camera.reversedDepth );
 
-		// include lights from target scene
-		if ( targetScene !== scene ) {
+			}
 
-			targetScene.traverseVisible( function ( object ) {
+			const renderList = this._renderLists.get( sceneRef, camera, this.lighting );
+			renderList.begin();
 
-				if ( object.isLight && object.layers.test( camera.layers ) ) {
+			this._projectObject( scene, camera, 0, renderList, renderContext.clippingContext );
 
-					renderList.pushLight( object );
+			if ( targetScene !== scene ) {
+
+				targetScene.traverseVisible( function ( object ) {
+
+					if ( object.isLight && object.layers.test( camera.layers ) ) {
+
+						renderList.pushLight( object );
+
+					}
+
+				} );
+
+			}
+
+			renderList.finish();
+
+			if ( renderTarget !== null ) {
+
+				this._textures.updateRenderTarget( renderTarget, this._activeMipmapLevel );
+
+				const renderTargetData = this._textures.get( renderTarget );
+
+				renderContext.textures = renderTargetData.textures;
+				renderContext.depthTexture = renderTargetData.depthTexture;
+				renderContext.renderTarget = renderTarget;
+				renderContext.depth = renderTarget.depthBuffer;
+				renderContext.stencil = renderTarget.stencilBuffer;
+
+			} else {
+
+				renderContext.textures = null;
+				renderContext.depthTexture = null;
+				renderContext.renderTarget = null;
+
+			}
+
+			this._background.update( targetScene !== scene ? targetScene : sceneRef, renderList, renderContext );
+
+			const lightsNode = renderList.lightsNode;
+
+
+			if ( this.opaque === true && renderList.opaque.length > 0 ) this._renderObjects( renderList.opaque, camera, sceneRef, lightsNode );
+			if ( this.transparent === true && renderList.transparent.length > 0 ) this._renderTransparents( renderList.transparent, renderList.transparentDoublePass, camera, sceneRef, lightsNode );
+
+			contextState = { ...renderContext };
+
+		} );
+
+		const total = renderItems.length;
+		let loaded = 0;
+
+		await Promise.all( renderItems.map( async ( item ) => {
+
+			await yieldToMain();
+
+			const pipelinePromises = [];
+
+			compile( () => {
+
+				this._compilationPromises = pipelinePromises;
+
+				const material = item.params[ 4 ];
+				const side = material.side;
+
+				try {
+
+					material.side = item.side;
+					this.renderObject( ...item.params );
+
+				} finally {
+
+					material.side = side;
 
 				}
 
 			} );
 
-		}
-
-		renderList.finish();
-
-		//
-
-		if ( renderTarget !== null ) {
-
-			this._textures.updateRenderTarget( renderTarget, activeMipmapLevel );
-
-			const renderTargetData = this._textures.get( renderTarget );
-
-			renderContext.textures = renderTargetData.textures;
-			renderContext.depthTexture = renderTargetData.depthTexture;
-
-		} else {
-
-			renderContext.textures = null;
-			renderContext.depthTexture = null;
-
-		}
-
-		//
-
-		if ( targetScene !== scene ) {
-
-			this._background.update( targetScene, renderList, renderContext );
-
-		} else {
-
-			this._background.update( sceneRef, renderList, renderContext );
-
-		}
-
-		// process render lists - _createObjectPipeline will push async promises to _compilationPromises
-
-		const opaqueObjects = renderList.opaque;
-		const transparentObjects = renderList.transparent;
-		const transparentDoublePassObjects = renderList.transparentDoublePass;
-		const lightsNode = renderList.lightsNode;
-
-		if ( this.opaque === true && opaqueObjects.length > 0 ) this._renderObjects( opaqueObjects, camera, sceneRef, lightsNode );
-		if ( this.transparent === true && transparentObjects.length > 0 ) this._renderTransparents( transparentObjects, transparentDoublePassObjects, camera, sceneRef, lightsNode );
-
-		// restore render tree
-
-		nodeFrame.renderId = previousRenderId;
-
-		this._currentRenderContext = previousRenderContext;
-		this._currentRenderObjectFunction = previousRenderObjectFunction;
-		this._handleObjectFunction = previousHandleObjectFunction;
-		this._compilationPromises = previousCompilationPromises;
-
-		// Process compilation work items sequentially to avoid freezing
-		// Yields between objects to keep animation smooth
-
-		const total = compilationPromises.length;
-		let loaded = 0;
-
-		for ( const item of compilationPromises ) {
-
-			const renderObject = this._objects.get( item.object, item.material, item.scene, item.camera, item.lightsNode, item.renderContext, item.clippingContext, item.passId );
-			renderObject.drawRange = item.object.geometry.drawRange;
-			renderObject.group = item.group;
-
-			// Use async node building to yield to main thread
-			await this._nodes.getForRenderAsync( renderObject );
-
-			this._isPreCompiling = true; // note: no awaits are allowed when this flag is true otherwise the state leaks outside of this method
-			this._nodes.updateBefore( renderObject );
-			this._geometries.updateForRender( renderObject );
-			this._nodes.updateForRender( renderObject );
-			this._bindings.updateForRender( renderObject );
-			this._isPreCompiling = false;
-
-			// Wait for pipeline creation
-			const pipelinePromises = [];
-			this._pipelines.getForRender( renderObject, pipelinePromises );
-			if ( pipelinePromises.length > 0 ) {
-
-				await Promise.all( pipelinePromises );
-
-			}
-
-			this._isPreCompiling = true;
-			this._nodes.updateAfter( renderObject );
-			this._isPreCompiling = false;
+			await Promise.all( pipelinePromises );
 
 			loaded ++;
 
@@ -1095,10 +1117,7 @@ class Renderer {
 
 			}
 
-			// Yield between objects to allow animation frames
-			await yieldToMain();
-
-		}
+		} ) );
 
 	}
 
@@ -3918,27 +3937,6 @@ class Renderer {
 	 */
 	_createObjectPipeline( object, material, scene, camera, lightsNode, group, clippingContext, passId ) {
 
-		// If in async compilation mode, queue the work for sequential execution
-		if ( this._compilationPromises !== null ) {
-
-			// Store work items instead of promises - will be processed sequentially
-			this._compilationPromises.push( {
-				object,
-				material,
-				scene,
-				camera,
-				lightsNode,
-				group,
-				clippingContext,
-				passId,
-				renderContext: this._currentRenderContext
-			} );
-
-			return;
-
-		}
-
-		// Sync path
 		const renderObject = this._objects.get( object, material, scene, camera, lightsNode, this._currentRenderContext, clippingContext, passId );
 		renderObject.drawRange = object.geometry.drawRange;
 		renderObject.group = group;
@@ -3953,8 +3951,6 @@ class Renderer {
 		this._bindings.updateForRender( renderObject );
 
 		this._pipelines.getForRender( renderObject, this._compilationPromises );
-
-		this._nodes.updateAfter( renderObject );
 
 	}
 

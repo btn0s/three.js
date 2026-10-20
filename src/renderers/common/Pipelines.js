@@ -242,6 +242,14 @@ class Pipelines extends DataMap {
 
 		}
 
+		if ( promises !== null ) {
+
+			const promise = this.get( data.pipeline ).promise;
+
+			if ( promise !== undefined ) promises.push( promise );
+
+		}
+
 		return data.pipeline;
 
 	}
@@ -395,11 +403,21 @@ class Pipelines extends DataMap {
 
 			renderObject.pipeline = pipeline;
 
-			// The `promises` array is `null` by default and only set to an empty array when
-			// `Renderer.compileAsync()` is used. The next call actually fills the array with
-			// pending promises that resolve when the render pipelines are ready for rendering.
+			const pipelinePromises = promises === null ? null : [];
 
-			this.backend.createRenderPipeline( renderObject, promises );
+			this.backend.createRenderPipeline( renderObject, pipelinePromises );
+
+			if ( pipelinePromises !== null && pipelinePromises.length > 0 ) {
+
+				const pipelineData = this.get( pipeline );
+
+				pipelineData.promise = Promise.all( pipelinePromises ).finally( () => {
+
+					delete pipelineData.promise;
+
+				} );
+
+			}
 
 		}
 
